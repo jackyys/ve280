@@ -1,4 +1,6 @@
-# Lab One: Integers!
+# Lab One: Integers
+
+> This lab was completed on June 2, 2019, with joint solutions by VE280 students. You can obtain a copy of starter files [here](https://github.com/ve280/ve280/tree/92cd8c00feca0152cea3ecf22fdd906251454280/labs/lab1) by backtracking the commit history.
 
 ## Introduction
 
@@ -58,7 +60,7 @@
 
   - **Input:**
 
-    An integer **n** where **1 <= n <= 10<sup>7</sup>**, and base **b**.
+    An integer **n** and base **b** where **1 <= n <= 10<sup>7</sup>** and **2 <= b <= 16**.
 
   - **Output:**
 
@@ -71,7 +73,7 @@
   
     A composite number which is relatively prime to the sum of its divisors. So called by Richard Duffy who introduced it.
 
-    For example, **35** is Duffinian since it's relatively prime to the sum of its divisors **1 + 3 + 5 + 7 + 35 = 48**.
+    For example, **35** is Duffinian since it's relatively prime to the sum of its divisors **1 + 5 + 7 + 35 = 48**.
 
   - **Input:**
 
@@ -108,7 +110,7 @@
 
 ## Implementation
 
-For the RC section on May 30, you need to complete `magnanimous.cpp` and `jordan_polya.cpp`. For the RC section on May 31, you need to complete `alternating.cpp` and `duffinian.cpp`. 
+For the lab section on May 30, you need to complete `magnanimous.cpp` and `jordan_polya.cpp`. For the lab section on May 31, you need to complete `alternating.cpp` and `duffinian.cpp`. Additionally, you can try to solve the bonus problem in `apocalyptic.cpp` if interested.
 
 The function declarations are provided for each kind of number. For example, you need to implement `is_magnanimous()` in `magnanimous.cpp` to check magnanimous numbers. 
 
@@ -141,7 +143,7 @@ make
 or type the following command:
 
 ```
-g++ -Wall -o lab1 lab1.cpp magnanimous.cpp jordan_polya.cpp alternating.cpp duffinian.cpp
+g++ -Wall -o lab1 lab1.cpp magnanimous.cpp jordan_polya.cpp alternating.cpp duffinian.cpp apocalyptic.cpp
 ```
 
 Then you can run the executable:
@@ -153,6 +155,10 @@ Then you can run the executable:
 
 ## Submission
 Please make a fork of the VE280 GitHub repository at <https://github.com/ve280/ve280>, then commit your updates to the files in `labs/lab1` and create a pull request. You can refer to this [tutorial](https://github.com/ve280/tutorials/blob/master/github_introduction.md#4-contribute-to-a-public-repository) on how to create pull requests.
+
+
+## Acknowledgement
+Lab 1 problems are designed by [Zian Ke](https://github.com/zianke) and [Tianyi Ge](https://github.com/TimothyGe).
 
 
 ## Reference

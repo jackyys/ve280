@@ -1,7 +1,7 @@
 all: lab1
 
-lab1: lab1.o magnanimous.o jordan_polya.o alternating.o duffinian.o
-	g++ -o lab1 lab1.o magnanimous.o jordan_polya.o alternating.o duffinian.o
+lab1: lab1.o magnanimous.o jordan_polya.o alternating.o duffinian.o apocalyptic.o
+	g++ -o lab1 lab1.o magnanimous.o jordan_polya.o alternating.o duffinian.o apocalyptic.o
 
 lab1.o: lab1.cpp
 	g++ -c lab1.cpp
@@ -17,6 +17,9 @@ alternating.o: alternating.cpp
 
 duffinian.o: duffinian.cpp
 	g++ -c duffinian.cpp
+
+apocalyptic.o: apocalyptic.cpp
+	g++ -c apocalyptic.cpp
 
 clean:
 	rm -f lab1 *.o

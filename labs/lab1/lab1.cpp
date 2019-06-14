@@ -6,5 +6,6 @@ int main() {
     test_jordan_polya();
     test_alternating();
     test_duffinian();
+    test_apocalyptic();
     return 0;
 }
