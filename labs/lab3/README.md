@@ -1,5 +1,7 @@
 # Lab Three: 2048
 
+> This lab was completed on July 20, 2019, with joint solutions by VE280 students. You can obtain a copy of starter files [here](https://github.com/ve280/ve280/tree/3e9c40840088ae14b2b1006e019898247b3b80f8/labs/lab3) by backtracking the commit history.
+
 ## Introduction
 
 The original version of 2048, developed by [Gabriele Cirulli](https://github.com/gabrielecirulli), is a web game written in HTML+CSS+JavaScript. You can find the source code in this [GitHub repository](https://github.com/gabrielecirulli/2048). In this lab, we are going to develop a C++ version of 2048. It should implement most of the basic features of 2048, which include printing grid, moving tiles and accumulating score. Some exciting bonus features, such as customized tile values with Emojis and Chinese characters, will also be implemented. You'll definitely enjoy playing with it in your terminal!
