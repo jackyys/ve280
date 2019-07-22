@@ -10,7 +10,7 @@ The rules of this LTK in C++ is simplified from the original version. There are 
 
 When the game starts, the players list is shuffled and each player is randomly assigned a hero and four cards. Please refer to the "Implementation" section for the descriptions of each card and hero. Depending on the hero, a player gets several health points (usually 3 or 4).
 
-During the game, each player takes his/her turn one by one. There are three main phases in a player's turn.
+During the game, the players take their turns one by one. There are three main phases in a player's turn.
 
 1. **Drawing phase**
    
@@ -20,7 +20,7 @@ During the game, each player takes his/her turn one by one. There are three main
 
    Any number of cards may be played, but generally, each player may only use the **Strike** card once. The function `Player::playCard()` is called for each card being played. The player is first requested to select a card. Then the `Card::takeEffect(source, targets)` function of the selected card is called, with the following steps taking place in this function. 
    
-   For those cards that require a target, the player is further requested to select another player as the target by calling the function `Player::selectTarget()`. After these selections, the card has taken effect and the target may be requested for a response card, for example, a **Dodge** for a **Strike**. This step is done by calling `Player::requestCard(DODGE)` upon the target player. If the target player fails to respond, he/she may get some penalty depending on the card's effect, which is usually losing one health point. If a player's health points decrease to 0 and no one plays a **Peach** card, the player is killed and no longer takes any turn.
+   For those cards that require a target, the player is further requested to select another player as the target by calling the function `Player::selectTarget()`. After these selections, the card has taken effect and the target may be requested for a response card, for example, a **Dodge** for a **Strike**. This step is done by calling `Player::requestCard(DODGE)` upon the target player. If the target player fails to respond, he will get some penalty depending on the card's effect, which is usually losing one health point. If a player's health points decrease to 0 and no one plays a **Peach** card, the player is killed and no longer takes any turn.
    
 3. **Discard phase**
 
@@ -144,39 +144,41 @@ The commands for HumanPlayers to control their characters are listed below. Comm
 
 	  <img src="images/zhaoyun.png" width="200">
 	  
-	  [Courage] You may treat your **Strike** as a **Dodge** or your **Dodge** as a **Strike**.
+	  **[Courage]** You may treat your **Strike** as a **Dodge** or your **Dodge** as a **Strike**.
 	  
 	- **Zhen Ji** (To be implemented in 7/18 lab section)
 
 	  <img src="images/zhenji.jpg" width="200">
 	  
-	  [Gorgeous] All your black color suit hand cards may be treated as **Dodge**.
+	  **[Gorgeous]** All your black color suit hand cards may be treated as **Dodge**.
 	  
 	- **Hua Tuo** (To be implemented in 7/19 lab section)
 
 	  <img src="images/huatuo.png" width="200">
 	  
-	  [Triage] You may use any of your red color suit cards as **Peach**.
+	  **[Triage]** You may use any of your red color suit cards as **Peach**.
 	  
 	- **Lu Bu** (To be implemented in 7/18 lab section)
 
 	  <img src="images/lubu.png" width="200">
 	  
-	  [Unrivaled] When you use **Strike**, your target must use two **Dodge** to dodge your **Strike**.
+	  **[Unrivaled]** When you use **Strike**, your target must use two **Dodge** to dodge your **Strike**.
 	  
 	- **Diao Chan** (To be implemented in 7/19 lab section)
 
 	  <img src="images/diaochan.png" width="200">
 	  
-	  [Mischief] During your play phase, you may discard one card and select two Male Heroes and have them **Duel** each other.
+	  **[Mischief]** During your play phase, you may discard one card and select two Male Heroes and have them **Duel** each other.
 
 3. **MyopicPlayer**
 
-	We have provided you with all the implementation of `HumanPlayer`, but so far the strategies of `MyopicPlayer` are quite stupid. You need to update the following two functions to make it more challenging to play against a MyopicPlayer. You may find our implementation of `const Card *MyopicPlayer::requestCard(Action action)` helpful. It's also encouraged to think about how to update other functions, such as `void MyopicPlayer::discardCards()`, to make the MyopicPlayer more like a ProvidentPlayer.
+	We have provided you with all the implementation of `HumanPlayer`, but so far the strategies of `MyopicPlayer` are quite stupid. You need to update the following two functions to make it more challenging to play against a MyopicPlayer. It's also encouraged to think about how to update other functions, such as `void MyopicPlayer::discardCards()`, to make the MyopicPlayer more like a ProvidentPlayer.
 	
 	- `void MyopicPlayer::playCard()`
 
 	  For now a MyopicPlayer randomly selects a card to play in his turn, even if he doesn't know whether the card would take effect. He has no idea about how to use the hero's ability either.
+	  
+	  Hint: You may find our implementation of `void HumanPlayer::playCard()` and `const Card *MyopicPlayer::requestCard(Action action)` helpful.
 	  
 	- `Player *MyopicPlayer::selectTarget()`
 
