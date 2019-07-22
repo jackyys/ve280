@@ -75,12 +75,13 @@ public:
 };
 
 class HumanPlayer : public Player {
-public:
-    HumanPlayer(const std::string &name, Camp camp);
-
+private:
     void readCommand(std::string &command, std::vector<size_t> &args);
 
     void handleGeneralCommand(const std::string &command, const std::vector<size_t> &args) const;
+
+public:
+    HumanPlayer(const std::string &name, Camp camp);
 
     void playCard() override;
 
