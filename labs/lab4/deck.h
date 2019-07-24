@@ -7,18 +7,25 @@
 const int NUM_CARDS = 77;
 
 class Deck {
+    // OVERVIEW: container of LTK cards,
+    //           "cards" contain all the game cards,
+    //           "deck" contains the cards available to draw
     const Card *cards[NUM_CARDS];
     std::list<const Card *> deck;
 public:
-    Deck();
+    Deck();  // constructor
 
     void pushCard(const Card *card);
+    // REQUIRES: "card" doesn't point to a hand card of any player
+    // EFFECTS: places "card" at a random position in "deck"
 
     const Card *popCard();
+    // EFFECTS: returns the card at the end of "deck" and removes it from "deck"
 
-    ~Deck();
+    ~Deck();  // destructor
 };
 
 extern Deck *getDeck();
+// EFFECTS: returns the pointer to a static Deck object
 
 #endif
