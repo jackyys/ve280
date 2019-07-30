@@ -1,5 +1,7 @@
 # Lab Two: Cord
 
+> This lab was completed on June 19, 2019, with joint solutions by VE280 students. If you'd like to start it over, you can first delete the function definitions in `cord.cpp`, then implement them by yourself.
+
 ## Introduction
 
 The most obvious implementation of a string is as an array of characters. However, this representation of strings is particularly inefficient at handling string concatenation.
@@ -33,9 +35,9 @@ We can also represent the same structure using a short-hand notation that illust
 
 ## Implementation
 
-This lab aims to help you better understand recursion. Therefore, we have provided the implementation of functions 1 to 4, while leaving functions 5 to 7 for you to implement. You need to use recursion in these three functions. We encourage you to read the implementation of functions 1 to 4 before you start coding.
+This lab aims to help you better understand recursion. Therefore, we have provided the implementation of functions 1 to 4, while leaving functions 5 to 8 for you to implement. You need to use recursion in these four functions. We encourage you to read the implementation of functions 1 to 4 before you start coding.
 
-1. `bool is_cord(cord *);`
+1. `bool is_cord(cord *c);`
 
    Check if a given cord is valid. 
    
@@ -92,6 +94,14 @@ This lab aims to help you better understand recursion. Therefore, we have provid
    Running `cord_sub(R,0,1)` and `cord_sub(R,7,16)` should not cause any new memory to be allocated, because these substrings are captured by subtrees of the original cord. Running `cord_sub(R,2,3)` must return a newly-allocated leaf node containing the string `"t"`.
    
    HINT: in your recursive function, try to first identify all the cases where it is possible to return immediately without any new allocation. What cases are left?
+   
+8. `void cord_print(cord_t R);`
+
+   Print the internal structure of a given cord to standard output. You need to print `""` for a cord representing the empty string, `"somedata"` for a leaf node, `( "some" "data" )` for a concatenation node. The output for the cord representing `"totallyefficient"` as defined in function 4 example is as below.
+   
+   ```
+   ( ( "t" "otally" ) ( "efficien" "t" ) )
+   ```
 
 
 

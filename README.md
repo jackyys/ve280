@@ -27,24 +27,24 @@
     + Thursday 4:00 - 5:40 pm @ D202
     + Friday 4:00 - 5:40 pm (odd weeks) @ D202
 + TA: 
-  + LIU Yihao
+  + Yihao Liu
     + Email: liuyh615@sjtu.edu.cn
     + Office Hours: Monday 7:00 - 11:00 pm @ JI-326D (for both VE280 and VE472/572)
-  + CHEN Jiayi
+  + Jiayi Chen
     + Email:  jane_chen@sjtu.edu.cn
     + Office Hours: Monday 9:00 - 11:00 pm @ JI-326D
-  + FU Xiaohan
+  + Xiaohan Fu
     + Email: reapor.yurnero@sjtu.edu.cn
     + Office Hours: Tuesday 6:00 - 8:00 pm @ JI-326D
-  + GE Tianyi
+  + Tianyi Ge
     + Email: ji_getianyi@sjtu.edu.cn
     + Office Hours: Wednesday 4:00 - 6:00 pm @ JI-326D
-  + QIAN Shengyi
+  + Shengyi Qian
     + Email: syqian@sjtu.edu.cn
     + Office Hours: Wednesday 6:00 - 8:00 pm @ JI-326D
-  + KE Zian
+  + Zian Ke
     + Email: kezian@sjtu.edu.cn
     + Office Hours: Thursday 7:00 - 10:00 pm @ JI-326D
 + Recitation Class: 
-  + Wednesday 14:00 - 15:00 pm @ E2-305
-  + Friday 12:30 - 13:30 pm @ E2-305
+  + Wednesday 2:00 - 3:00 pm @ F115
+  + Friday 12:30 - 1:30 pm @ F215

@@ -43,18 +43,26 @@ int main(int argc, char **argv) {
 
     // Test the three examples of cord_sub in README.md
     cord_t R = cord_join(cord_join(cord_new("t"), cord_new("otally")), cord_join(cord_new("efficien"), cord_new("t")));
+    cord_print(R);
+    cout << endl;
     assert(cord_tostring(R) == "totallyefficient");
 
     cord_t R1 = cord_sub(R, 1, 16);
+    cord_print(R1);
+    cout << endl;
     assert(cord_tostring(R1) == "otallyefficient");
     assert(R1->left == R->left->right);
     assert(R1->right == R->right);
 
     cord_t R2 = cord_sub(R, 1, 11);
+    cord_print(R2);
+    cout << endl;
     assert(cord_tostring(R2) == "otallyeffi");
     assert(R2->left == R->left->right);
 
     cord_t R3 = cord_sub(R, 2, 11);
+    cord_print(R3);
+    cout << endl;
     assert(cord_tostring(R3) == "tallyeffi");
 
     // Test cord validity
