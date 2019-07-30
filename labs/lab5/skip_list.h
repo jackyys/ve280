@@ -37,6 +37,7 @@ public:
     //          false otherwise
 
     void remove(T value);
+    // MODIFIES: this
     // EFFECTS: removes "value" from the skip list,
     //          does nothing if the skip list doesn't contain the value
 
