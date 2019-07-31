@@ -35,7 +35,7 @@ Insert(list, value)
 				update[i] := list→header
 			list→level := rlevel
 		x := makeNode(rlevel, value)
-		<b>for</b> i := 1 <b>to</b> list→level <b>do</b>
+		<b>for</b> i := 1 <b>to</b> rlevel <b>do</b>
 			x→forward[i] := update[i]→forward[i]
 			update[i]→forward[i] := x
 </pre>
