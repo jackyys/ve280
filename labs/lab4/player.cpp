@@ -143,11 +143,6 @@ void Player::discardCard(size_t index) {
 }
 
 Player::~Player() {
-    size_t size = cards.size();
-    for (size_t i = 0; i < size; i++) {
-        getDeck()->pushCard(cards.front());
-        cards.pop_front();
-    }
     delete hero;
 }
 
