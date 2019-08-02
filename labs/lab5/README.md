@@ -205,7 +205,7 @@ Please make a fork of the VE280 GitHub repository at <https://github.com/ve280/v
 
 ## Acknowledgement
 
-Lab 5 problems are designed by [Zian Ke](https://github.com/zianke).
+Lab 5 problems are designed by [Zian Ke](https://github.com/zianke) and [Yihao Liu](https://github.com/tc-imba).
 
 
 ## Reference
