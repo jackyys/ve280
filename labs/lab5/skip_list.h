@@ -18,6 +18,9 @@ private:
 
     int level;  // level of the skip list
     Node *header;  // header node of the skip list
+
+    void removeAll();  // remove all elements
+    void copyAll(const SkipList &l);  // copy all elements
 public:
     SkipList();  // constructor
 
