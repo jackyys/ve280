@@ -108,7 +108,7 @@ public:
 class HumanPlayer : public Player {
     // OVERVIEW: derived class from Player to implement HumanPlayer
 private:
-    void readCommand(std::string &command, std::vector<size_t> &args);
+    void readCommand(std::string &command, std::vector<size_t> &args) const;
     // EFFECTS: reads a command and writes into "command" and "args"
 
     void handleGeneralCommand(const std::string &command, const std::vector<size_t> &args) const;

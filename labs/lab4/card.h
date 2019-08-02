@@ -24,6 +24,7 @@ enum Action {
     BARBARIAN_INVASION,
     SOMETHING_FOR_NOTHING,
     BOUNTIFUL_HARVEST,
+    PEACH_GARDEN,
     DISMANTLE,
     SNATCH,
     DUEL,
@@ -73,7 +74,7 @@ public:
 class Strike : public Card {
     // OVERVIEW: derived class from Card to implement Strike
 public:
-    Strike(Spot spot, Suit suit) : Card(spot, suit, STRIKE) {}  // constructor
+    Strike(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -85,7 +86,7 @@ public:
 class Dodge : public Card {
     // OVERVIEW: derived class from Card to implement Dodge
 public:
-    Dodge(Spot spot, Suit suit) : Card(spot, suit, DODGE) {}  // constructor
+    Dodge(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -95,7 +96,7 @@ public:
 class Peach : public Card {
     // OVERVIEW: derived class from Card to implement Peach
 public:
-    Peach(Spot spot, Suit suit) : Card(spot, suit, PEACH) {}  // constructor
+    Peach(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -105,7 +106,7 @@ public:
 class ArrowBarrage : public Card {
     // OVERVIEW: derived class from Card to implement Arrow Barrage
 public:
-    ArrowBarrage(Spot spot, Suit suit) : Card(spot, suit, ARROW_BARRAGE) {}  // constructor
+    ArrowBarrage(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -116,7 +117,7 @@ public:
 class BarbarianInvasion : public Card {
     // OVERVIEW: derived class from Card to implement Barbarian Invasion
 public:
-    BarbarianInvasion(Spot spot, Suit suit) : Card(spot, suit, BARBARIAN_INVASION) {}  // constructor
+    BarbarianInvasion(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -127,7 +128,7 @@ public:
 class SomethingForNothing : public Card {
     // OVERVIEW: derived class from Card to implement Something for Nothing
 public:
-    SomethingForNothing(Spot spot, Suit suit) : Card(spot, suit, SOMETHING_FOR_NOTHING) {}  // constructor
+    SomethingForNothing(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -137,17 +138,27 @@ public:
 class BountifulHarvest : public Card {
     // OVERVIEW: derived class from Card to implement Bountiful Harvest
 public:
-    BountifulHarvest(Spot spot, Suit suit) : Card(spot, suit, BOUNTIFUL_HARVEST) {}  // constructor
+    BountifulHarvest(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
     // EFFECTS: each player draws one card
 };
 
+class PeachGarden : public Card {
+    // OVERVIEW: derived class from Card to implement Peach Garden
+public:
+    PeachGarden(Spot spot, Suit suit);  // constructor
+
+    void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
+    // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
+    // EFFECTS: all players regain one health point;
+};
+
 class Dismantle : public Card {
     // OVERVIEW: derived class from Card to implement Dismantle
 public:
-    Dismantle(Spot spot, Suit suit) : Card(spot, suit, DISMANTLE) {}  // constructor
+    Dismantle(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -157,7 +168,7 @@ public:
 class Snatch : public Card {
     // OVERVIEW: derived class from Card to implement Snatch
 public:
-    Snatch(Spot spot, Suit suit) : Card(spot, suit, SNATCH) {}  // constructor
+    Snatch(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players
@@ -167,7 +178,7 @@ public:
 class Duel : public Card {
     // OVERVIEW: derived class from Card to implement Duel
 public:
-    Duel(Spot spot, Suit suit) : Card(spot, suit, DUEL) {}  // constructor
+    Duel(Spot spot, Suit suit);  // constructor
 
     void takeEffect(Player *source, const std::vector<Player *> &targets) const override;
     // REQUIRES: "source" is non-nullptr, "targets" includes all the game players

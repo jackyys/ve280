@@ -10,7 +10,21 @@ const vector<Player *> &Game::getPlayers() {
     return players;
 }
 
-void Game::addPlayer(const std::string &name, Camp camp) {
+void Game::printPlayers() const {
+    size_t i = 1;
+    for (Player *player:players) {
+        cout << "[" << i << "] ";
+        player->printName();
+        cout << " ";
+        player->printHealth();
+        cout << " ";
+        player->getHero()->printName();
+        cout << endl;
+        i++;
+    }
+}
+
+void Game::addPlayer(const string &name, Camp camp) {
     Player *player;
     if (name == "m") {
         player = new MyopicPlayer(name, camp);

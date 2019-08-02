@@ -67,20 +67,21 @@ Deck::Deck() : cards() {
     cards[60] = new SomethingForNothing(JACK, HEARTS);
     cards[61] = new BountifulHarvest(THREE, HEARTS);
     cards[62] = new BountifulHarvest(FOUR, HEARTS);
-    cards[63] = new Dismantle(THREE, SPADES);
-    cards[64] = new Dismantle(FOUR, SPADES);
-    cards[65] = new Dismantle(QUEEN, SPADES);
-    cards[66] = new Dismantle(QUEEN, HEARTS);
-    cards[67] = new Dismantle(THREE, CLUBS);
-    cards[68] = new Dismantle(FOUR, CLUBS);
-    cards[69] = new Snatch(THREE, DIAMONDS);
-    cards[70] = new Snatch(FOUR, DIAMONDS);
-    cards[71] = new Snatch(THREE, SPADES);
-    cards[72] = new Snatch(FOUR, SPADES);
-    cards[73] = new Snatch(JACK, SPADES);
-    cards[74] = new Duel(ACE, DIAMONDS);
-    cards[75] = new Duel(ACE, SPADES);
-    cards[76] = new Duel(ACE, CLUBS);
+    cards[63] = new PeachGarden(ACE, HEARTS);
+    cards[64] = new Dismantle(THREE, SPADES);
+    cards[65] = new Dismantle(FOUR, SPADES);
+    cards[66] = new Dismantle(QUEEN, SPADES);
+    cards[67] = new Dismantle(QUEEN, HEARTS);
+    cards[68] = new Dismantle(THREE, CLUBS);
+    cards[69] = new Dismantle(FOUR, CLUBS);
+    cards[70] = new Snatch(THREE, DIAMONDS);
+    cards[71] = new Snatch(FOUR, DIAMONDS);
+    cards[72] = new Snatch(THREE, SPADES);
+    cards[73] = new Snatch(FOUR, SPADES);
+    cards[74] = new Snatch(JACK, SPADES);
+    cards[75] = new Duel(ACE, DIAMONDS);
+    cards[76] = new Duel(ACE, SPADES);
+    cards[77] = new Duel(ACE, CLUBS);
     for (const Card *card : cards) {
         pushCard(card);
     }

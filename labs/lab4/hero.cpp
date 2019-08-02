@@ -8,7 +8,7 @@ using namespace std;
 
 const char *GENDER_NAMES[] = {"Male", "Female"};
 
-Hero::Hero(Kingdom kingdom, Gender gender, unsigned int life, const std::string &name, const std::string &asciiArt) :
+Hero::Hero(Kingdom kingdom, Gender gender, unsigned int life, const string &name, const string &asciiArt) :
         kingdom(kingdom), gender(gender), life(life), name(name), asciiArt(asciiArt) {}
 
 
@@ -24,7 +24,7 @@ unsigned int Hero::getLife() const {
     return life;
 }
 
-std::string Hero::getName() const {
+string Hero::getName() const {
     return name;
 }
 
