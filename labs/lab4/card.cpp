@@ -158,13 +158,35 @@ void Peach::takeEffect(Player *source, const vector<Player *> &targets) const {
 ArrowBarrage::ArrowBarrage(Spot spot, Suit suit) : Card(spot, suit, ARROW_BARRAGE) {}
 
 void ArrowBarrage::takeEffect(Player *source, const vector<Player *> &targets) const {
-    // TODO: Your implementation here
+    source->printPlay(this);
+    for (Player *target: targets) {
+        if (target->getHealth() && target != source) {
+            try {
+                const Card *card = target->requestCard(DODGE);
+                target->printPlay(card);
+            } catch (DiscardException &e) {
+                target->printHit(this);
+                target->decreaseHealth();
+            }
+        }
+    }
 }
 
 BarbarianInvasion::BarbarianInvasion(Spot spot, Suit suit) : Card(spot, suit, BARBARIAN_INVASION) {}
 
 void BarbarianInvasion::takeEffect(Player *source, const vector<Player *> &targets) const {
-    // TODO: Your implementation here
+    source->printPlay(this);
+    for (Player *target: targets) {
+        if (target->getHealth() && target != source) {
+            try {
+                const Card *card = target->requestCard(STRIKE);
+                target->printPlay(card);
+            } catch (DiscardException &e) {
+                target->printHit(this);
+                target->decreaseHealth();
+            }
+        }
+    }
 }
 
 SomethingForNothing::SomethingForNothing(Spot spot, Suit suit) : Card(spot, suit, SOMETHING_FOR_NOTHING) {}
@@ -199,17 +221,58 @@ void PeachGarden::takeEffect(Player *source, const std::vector<Player *> &target
 Dismantle::Dismantle(Spot spot, Suit suit) : Card(spot, suit, DISMANTLE) {}
 
 void Dismantle::takeEffect(Player *source, const vector<Player *> &targets) const {
-    // TODO: Your implementation here
+    Player *target = source->selectTarget();
+    if (target == source) {
+        throw SelfTargetException(source);
+    } else if (!target->getHealth()) {
+        throw DeadTargetException(target);
+    } else if (!target->getNumCards()) {
+        throw NonPlayableCardException(this);
+    } else {
+        source->printPlay(this, target);
+        target->discardCard(rand() % target->getNumCards());
+    }
 }
 
 Snatch::Snatch(Spot spot, Suit suit) : Card(spot, suit, SNATCH) {}
 
 void Snatch::takeEffect(Player *source, const vector<Player *> &targets) const {
-    // TODO: Your implementation here
+    Player *target = source->selectTarget();
+    if (target == source) {
+        throw SelfTargetException(source);
+    } else if (!target->getHealth()) {
+        throw DeadTargetException(source);
+    } else if (!target->getNumCards()) {
+        throw NonPlayableCardException(this);
+    } else {
+        source->printPlay(this, target);
+        source->pushCard(target->eraseCard(rand() % target->getNumCards()));
+    }
 }
 
 Duel::Duel(Spot spot, Suit suit) : Card(spot, suit, DUEL) {}
 
 void Duel::takeEffect(Player *source, const vector<Player *> &targets) const {
-    // TODO: Your implementation here
+    Player *target = source->selectTarget();
+    if (target == source) {
+        throw SelfTargetException(source);
+    } else if (!target->getHealth()) {
+        throw DeadTargetException(target);
+    } else {
+        source->printPlay(this, target);
+        while (true) {
+            try {
+                target->printPlay(target->requestCard(STRIKE));
+            } catch (DiscardException &e) {
+                target->decreaseHealth();
+                break;
+            }
+            try {
+                source->printPlay(source->requestCard(STRIKE));
+            } catch (DiscardException &e) {
+                source->decreaseHealth();
+                break;
+            }
+        }
+    }
 }

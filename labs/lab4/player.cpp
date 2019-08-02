@@ -356,18 +356,43 @@ void HumanPlayer::discardCards() {
 MyopicPlayer::MyopicPlayer(const string &name, Camp camp) : Player(name, camp) {}
 
 void MyopicPlayer::playCard() {
-    // TODO: Improve MyopicPlayer's card playing strategies
-    if (!cards.empty()) {
+    for (size_t i = 0; i < cards.size(); i++) {
         try {
-            cards[rand() % cards.size()]->takeEffect(this, getGame()->getPlayers());
-        } catch (exception &e) {}
+            cards[i]->takeEffect(this, getGame()->getPlayers());
+            discardCard(i);
+            return;
+        } catch (CardException &e) {
+            continue;
+        } catch (TargetException &e) {
+            continue;
+        }
+    }
+    for (size_t i = 0; i < cards.size(); i++) {
+        try {
+            hero->castCard(cards[i])->takeEffect(this, getGame()->getPlayers());
+            discardCard(i);
+            return;
+        } catch (CardException &e) {
+            continue;
+        } catch (TargetException &e) {
+            continue;
+        }
+    }
+    try {
+        hero->castCard(nullptr)->takeEffect(this, getGame()->getPlayers());
+        return;
+    } catch (exception &e) {
     }
     throw DiscardException();
 };
 
 Player *MyopicPlayer::selectTarget() {
-    // TODO: Improve MyopicPlayer's target selecting strategies
-    return getGame()->getPlayers()[rand() % getGame()->getPlayers().size()];
+    while (true) {
+        Player *target = getGame()->getPlayers()[rand() % getGame()->getPlayers().size()];
+        if (target->getCamp() != this->camp) {
+            return target;
+        }
+    }
 }
 
 const Card *MyopicPlayer::requestCard(Action action) {
