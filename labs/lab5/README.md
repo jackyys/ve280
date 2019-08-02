@@ -114,7 +114,7 @@ Our implementation of `SkipList` will utilize the C++ templates mechanism to sup
 
 	- Before making the copy, you need to clear the current skip list with the destructor.
 
-	- You need to maintain a `source` array to keep tracking the rightmost visited nodes on each level of the target skip list.
+	- You need to maintain a `source` array to keep tracking the rightmost visited nodes on each level of the source skip list.
 
 	- You also need to maintain a `target` array to keep tracking the rightmost copied nodes on each level of the target skip list. Each time a new node is copied, you can link pointers to it by setting `target[i]->forward[i] = newNode`.
 
