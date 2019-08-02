@@ -1,5 +1,7 @@
 # Lab Five: Skip List
 
+> This lab was completed on August 3, 2019, with joint solutions by VE280 students. You can obtain a copy of starter files [here](https://github.com/ve280/ve280/tree/e9af45a79cd6589ef1c734f942488e7be41ed217/labs/lab5) by backtracking the commit history.
+
 ## Introduction
 
 Skip list is a data structure that allows `O(log n)` search complexity as well as `O(log n)` insertion/deletion complexity within an ordered sequence of `n` elements. It's widely used in database management systems such as [Redis](https://en.wikipedia.org/wiki/Redis) as the implementation of ordered set and key/value storage. In this lab we are going to implement a skip list with C++, which allows users to insert/search/remove elements. The goal of your implementation is to achieve a better performance on maintaining an ordered sequence of elements compared to the STL `list` and `vector`.
