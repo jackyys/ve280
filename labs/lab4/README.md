@@ -1,5 +1,7 @@
 # Lab Four: Legends of the Three Kingdoms
 
+> This lab was completed on August 2, 2019, with joint solutions by VE280 students. You can obtain a copy of starter files [here](https://github.com/ve280/ve280/tree/2075e076e5d305bc6b4b9aac53b5f3d99685933a/labs/lab4) by backtracking the commit history.
+
 ## Introduction
 
 Legends of the Three Kingdoms (三国杀) is a Chinese card game based on the [Three Kingdoms](https://en.wikipedia.org/wiki/Three_Kingdoms) period of China. The cards and heroes of LTK are all related to the history, the most telling of which are the heroes and their abilities. Each hero is given an ability in the game which usually mirrors the historical character's personality, actions, strength/weakness, cause of death, and historical events in which the character was involved, etc. In this lab, we are going to develop a C++ version of LTK, which covers most of the basic cards and scroll cards, as well as a large number of heroes with different abilities.
