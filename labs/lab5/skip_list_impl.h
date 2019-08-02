@@ -28,74 +28,119 @@ template<class T>
 SkipList<T>::SkipList() : level(1), header(new Node(T(), MAX_LEVEL)) {}
 
 template<class T>
-SkipList<T>::SkipList(const SkipList &l) {
-    copyAll(l);
+SkipList<T>::SkipList(const SkipList &l) : level(), header() {
+    *this = l;
 }
 
 template<class T>
 SkipList<T> &SkipList<T>::operator=(const SkipList &l) {
     if (this != &l) {
-        removeAll();
-        copyAll(l);
+        this->~SkipList();
+
+        level = l.level;
+        header = new Node(T(), MAX_LEVEL);
+
+        Node *source[MAX_LEVEL];
+        std::fill_n(source, MAX_LEVEL, l.header);
+
+        Node *target[MAX_LEVEL];
+        std::fill_n(target, MAX_LEVEL, header);
+
+        Node *node = source[0]->forward[0];
+        while (node) {
+            int nlevel = 0;
+            while (nlevel < MAX_LEVEL && source[nlevel]->forward[nlevel] == node) {
+                source[nlevel] = source[nlevel]->forward[nlevel];
+                nlevel++;
+            }
+            Node *copy = new Node(node->value, nlevel);
+            for (int i = 0; i < nlevel; i++) {
+                target[i]->forward[i] = copy;
+                target[i] = target[i]->forward[i];
+            }
+            node = node->forward[0];
+        }
     }
     return *this;
 }
 
 template<class T>
 SkipList<T>::~SkipList() {
-    removeAll();
+    Node *node = header;
+    while (node) {
+        Node *next = node->forward[0];
+        delete node;
+        node = next;
+    }
 }
 
 template<class T>
 void SkipList<T>::insert(T value) {
-    Node* update[MAX_LEVEL];
-    Node* x = header;
+    Node *update[MAX_LEVEL];
+    std::fill_n(update, MAX_LEVEL, nullptr);
+
+    Node *x = header;
     for (int i = level - 1; i >= 0; --i) {
-        while (x->forward[i] && x->forward[i]->value < value) x = x->forward[i];
+        while (x->forward[i] && x->forward[i]->value < value) {
+            x = x->forward[i];
+        }
         update[i] = x;
-    }   
+    }
     x = x->forward[0];
+
     if (!x || x->value != value) {
         int rlevel = randomLevel();
         if (rlevel > level) {
-            for (int i = level; i < rlevel; ++i) update[i] = header;
+            for (int i = level; i < rlevel; ++i) {
+                update[i] = header;
+            }
             level = rlevel;
         }
-        x = new Node(value, rlevel);
+        Node *n = new Node(value, rlevel);
         for (int i = 0; i < rlevel; ++i) {
-            x->forward[i] = update[i]->forward[i];
-            update[i]->forward[i] = x;
+            n->forward[i] = update[i]->forward[i];
+            update[i]->forward[i] = n;
         }
     }
 }
 
 template<class T>
 bool SkipList<T>::search(T value) const {
-    Node* x = header;
+    Node *x = header;
     for (int i = level - 1; i >= 0; --i) {
-        while (x->forward[i] && x->forward[i]->value < value) x = x->forward[i];
+        while (x->forward[i] && x->forward[i]->value < value) {
+            x = x->forward[i];
+        }
     }
     x = x->forward[0];
-    if (x && x->value == value) return true;
-    else return false;
+    return x && x->value == value;
 };
 
 template<class T>
 void SkipList<T>::remove(T value) {
-    Node* update[MAX_LEVEL];
-    Node* x = header;
+    Node *update[MAX_LEVEL];
+    std::fill_n(update, MAX_LEVEL, nullptr);
+
+    Node *x = header;
     for (int i = level - 1; i >= 0; --i) {
-        while (x->forward[i] && x->forward[i]->value < value) x = x->forward[i];
+        while (x->forward[i] && x->forward[i]->value < value) {
+            x = x->forward[i];
+        }
         update[i] = x;
     }
     x = x->forward[0];
+
     if (x && x->value == value) {
         for (int i = 0; i < level; ++i) {
-            if (update[i]->forward[i] != x) break;
+            if (update[i]->forward[i] != x) {
+                break;
+            }
             update[i]->forward[i] = x->forward[i];
         }
         delete x;
-        while (level > 1 && header->forward[level] == nullptr) level -= 1; 
+        while (level > 1 && !header->forward[level - 1]) {
+            level -= 1;
+        }
     }
 }
 
@@ -105,7 +150,7 @@ void SkipList<T>::display() const {
         Node *node = header->forward[i];
         Node *base = header->forward[0];
         std::cout << "[" << i << "] ";
-        while (node != nullptr) {
+        while (node) {
             while (base->value != node->value) {
                 std::ostringstream oss;
                 oss << base->value;
@@ -116,7 +161,7 @@ void SkipList<T>::display() const {
             node = node->forward[i];
             base = base->forward[0];
         }
-        while (base != nullptr) {
+        while (base) {
             std::ostringstream oss;
             oss << base->value;
             std::cout << std::string(oss.str().length(), '-') << " ";
@@ -133,47 +178,5 @@ static int randomLevel() {
     }
     return level;
 };
-
-template<class T>
-void SkipList<T>::removeAll() {
-    Node* node = header;
-    while (header) {
-        node = header;
-        header = node->forward[0];
-        delete node;
-    }
-}
-
-template<class T>
-void SkipList<T>::copyAll(const SkipList &l) {
-    level = l.level;
-    header = new Node(T(), MAX_LEVEL);
-    Node* source[MAX_LEVEL];
-    Node* target[MAX_LEVEL];
-    Node* node = l.header->forward[0];
-    int nodeLevel = 0;
-    if (!node) return;
-    for (int i = 0; i < l.level; ++i) {
-        source[i] = l.header->forward[i];
-        target[i] = header;
-    }
-    while (node) {
-        nodeLevel = 0;
-        for (int i = 0; i < l.level; ++i) {
-            if (!source[i]) break;
-            if (node->value == source[i]->value) nodeLevel++;
-        }
-        Node* x = new Node(node->value, nodeLevel);
-        for (int i = 0; i < nodeLevel; ++i) {
-            target[i]->forward[i] = x;
-            target[i] = x;
-        }
-        for (int i = 0; i < l.level; ++i) {
-            if (!source[i]) break;
-            if (node->value == source[i]->value) source[i] = source[i]->forward[i];
-        }
-        node = node->forward[0];
-    }
-}
 
 #endif
