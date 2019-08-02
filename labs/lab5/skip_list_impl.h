@@ -67,7 +67,7 @@ void SkipList<T>::display() const {
         Node *node = header->forward[i];
         Node *base = header->forward[0];
         std::cout << "[" << i << "] ";
-        while (node != nullptr) {
+        while (node) {
             while (base->value != node->value) {
                 std::ostringstream oss;
                 oss << base->value;
@@ -78,7 +78,7 @@ void SkipList<T>::display() const {
             node = node->forward[i];
             base = base->forward[0];
         }
-        while (base != nullptr) {
+        while (base) {
             std::ostringstream oss;
             oss << base->value;
             std::cout << std::string(oss.str().length(), '-') << " ";
