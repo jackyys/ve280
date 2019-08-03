@@ -8,7 +8,7 @@ using namespace std;
 
 const char *GENDER_NAMES[] = {"Male", "Female"};
 
-Hero::Hero(Kingdom kingdom, Gender gender, unsigned int life, const std::string &name, const std::string &asciiArt) :
+Hero::Hero(Kingdom kingdom, Gender gender, unsigned int life, const string &name, const string &asciiArt) :
         kingdom(kingdom), gender(gender), life(life), name(name), asciiArt(asciiArt) {}
 
 
@@ -24,7 +24,7 @@ unsigned int Hero::getLife() const {
     return life;
 }
 
-std::string Hero::getName() const {
+string Hero::getName() const {
     return name;
 }
 
@@ -163,8 +163,12 @@ ZhenJi::ZhenJi() : Hero(WEI, FEMALE, 3, "甄姬", R"(    ,/##(*%@@%/####((((((((
 ##//**,,,,****,,,,,*,,,,,,**,,,,,*///**/****/////*****////////////*******//****/((#(*/*..,****//##()") {}
 
 const Card *ZhenJi::castCard(const Card *card) {
-    // TODO: Your implementation here
-    throw NonCastableCardException(card);
+    if (card == nullptr || card->getSuit() != SPADES || card->getSuit() != CLUBS) {
+        throw NonCastableCardException(card);
+    }
+    const Card *castedCard = new Dodge(card->getSpot(), card->getSuit());
+    castedCards.push_back(castedCard);
+    return castedCard;
 }
 
 HuaTuo::HuaTuo() : Hero(NEUTRAL, MALE, 3, "华佗", R"(    ,/##(*%@@%/###((((((((((((((((((((((((((((((((((((((((((((((((//(((((((((((((/*,......,*/(####/
@@ -218,8 +222,12 @@ HuaTuo::HuaTuo() : Hero(NEUTRAL, MALE, 3, "华佗", R"(    ,/##(*%@@%/###(((((((
 ##/////******///*,,,,,***,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,***,,,.,,,,,,,,,*/(#(*//**,***///##()") {}
 
 const Card *HuaTuo::castCard(const Card *card) {
-    // TODO: Your implementation here
-    throw NonCastableCardException(card);
+    if (card == nullptr || card->getSuit() != HEARTS || card->getSuit() != DIAMONDS) {
+        throw NonCastableCardException(card);
+    }
+    const Card *castedCard = new Peach(card->getSpot(), card->getSuit());
+    castedCards.push_back(castedCard);
+    return castedCard;
 }
 
 LuBu::LuBu() : Hero(NEUTRAL, MALE, 4, "吕布", R"(,/(#(*#%%(/####((((((((((((((((((((((((((((((((((((((((((((((((/(((((((((((((/*,......,*/(####/
@@ -273,8 +281,43 @@ LuBu::LuBu() : Hero(NEUTRAL, MALE, 4, "吕布", R"(,/(#(*#%%(/####((((((((((((((
 ##(((((((((((((((///////////////////////////////////////////////////***///***//(((#(/%@,***/((##()") {}
 
 const Card *LuBu::castCard(const Card *card) {
-    // TODO: Your implementation here
-    throw NonCastableCardException(card);
+    class LuBuStrike : public Strike {
+    public:
+        LuBuStrike(Spot spot, Suit suit) : Strike(spot, suit) {}
+
+        void takeEffect(Player *source, const std::vector<Player *> &targets) const override {
+            if (source->getStriked()) {
+                throw NonPlayableCardException(this);
+            } else {
+                Player *target = source->selectTarget();
+                if (target == source) {
+                    throw SelfTargetException(source);
+                } else if (!target->getHealth()) {
+                    throw DeadTargetException(source);
+                } else {
+                    source->printPlay(this, target);
+                    cout << "The target must use two Dodges." << endl;
+                    try {
+                        const Card *card1 = target->requestCard(DODGE);
+                        target->printPlay(card1);
+                        const Card *card2 = target->requestCard(DODGE);
+                        target->printPlay(card2);
+                    } catch (DiscardException &e) {
+                        target->printHit(this);
+                        target->decreaseHealth();
+                    }
+                    source->setStriked(true);
+                }
+            }
+        }
+    };
+
+    if (card == nullptr || card->getAction() != STRIKE) {
+        throw NonCastableCardException(card);
+    }
+    const Card *castedCard = new LuBuStrike(card->getSpot(), card->getSuit());
+    castedCards.push_back(castedCard);
+    return castedCard;
 }
 
 DiaoChan::DiaoChan() : Hero(NEUTRAL, FEMALE, 3, "貂蝉", R"(    ,/(#(*%@@%/###(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((/*,......,*/(####/
@@ -328,8 +371,54 @@ DiaoChan::DiaoChan() : Hero(NEUTRAL, FEMALE, 3, "貂蝉", R"(    ,/(#(*%@@%/###(
 ##//**********,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*/(#(*(/,.,***///##()") {}
 
 const Card *DiaoChan::castCard(const Card *card) {
-    // TODO: Your implementation here
-    throw NonCastableCardException(card);
+    class DiaoChanDuel : public Duel {
+    public:
+        DiaoChanDuel(Spot spot, Suit suit) : Duel(spot, suit) {}
+
+        void takeEffect(Player *source, const std::vector<Player *> &targets) const override {
+            cout << "Two targets need to be selected. "
+                    "The first one is the source of Duel. "
+                    "The second one is the target of Duel." << endl;
+            Player *target1 = source->selectTarget();
+            Player *target2 = source->selectTarget();
+            if (target1 == source || target2 == source) {
+                throw SelfTargetException(source);
+            } else if (target1 == target2) {
+                throw SelfTargetException(target1);
+            } else if (!target1->getHealth()) {
+                throw DeadTargetException(target1);
+            } else if (!target2->getHealth()) {
+                throw DeadTargetException(target2);
+            } else if (target1->getHero()->getGender() == FEMALE) {
+                throw GenderException(target1);
+            } else if (target2->getHero()->getGender() == FEMALE) {
+                throw GenderException(target2);
+            } else {
+                target1->printPlay(this, target2);
+                while (true) {
+                    try {
+                        target2->printPlay(target2->requestCard(STRIKE));
+                    } catch (DiscardException &e) {
+                        target2->decreaseHealth();
+                        break;
+                    }
+                    try {
+                        target1->printPlay(target1->requestCard(STRIKE));
+                    } catch (DiscardException &e) {
+                        target1->decreaseHealth();
+                        break;
+                    }
+                }
+            }
+        }
+    };
+
+    if (card == nullptr) {
+        throw NonCastableCardException(card);
+    }
+    const Card *castedCard = new DiaoChanDuel(card->getSpot(), card->getSuit());
+    castedCards.push_back(castedCard);
+    return castedCard;
 }
 
 Hero *newHero() {

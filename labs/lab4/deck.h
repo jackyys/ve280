@@ -4,7 +4,7 @@
 #include "card.h"
 #include <list>
 
-const int NUM_CARDS = 77;
+const int NUM_CARDS = 78;
 
 class Deck {
     // OVERVIEW: container of LTK cards,

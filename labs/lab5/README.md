@@ -1,5 +1,7 @@
 # Lab Five: Skip List
 
+> This lab was completed on August 3, 2019, with joint solutions by VE280 students. You can obtain a copy of starter files [here](https://github.com/ve280/ve280/tree/e9af45a79cd6589ef1c734f942488e7be41ed217/labs/lab5) by backtracking the commit history.
+
 ## Introduction
 
 Skip list is a data structure that allows `O(log n)` search complexity as well as `O(log n)` insertion/deletion complexity within an ordered sequence of `n` elements. It's widely used in database management systems such as [Redis](https://en.wikipedia.org/wiki/Redis) as the implementation of ordered set and key/value storage. In this lab we are going to implement a skip list with C++, which allows users to insert/search/remove elements. The goal of your implementation is to achieve a better performance on maintaining an ordered sequence of elements compared to the STL `list` and `vector`.
@@ -35,7 +37,7 @@ Insert(list, value)
 				update[i] := list→header
 			list→level := rlevel
 		x := makeNode(rlevel, value)
-		<b>for</b> i := 1 <b>to</b> list→level <b>do</b>
+		<b>for</b> i := 1 <b>to</b> rlevel <b>do</b>
 			x→forward[i] := update[i]→forward[i]
 			update[i]→forward[i] := x
 </pre>
@@ -114,7 +116,7 @@ Our implementation of `SkipList` will utilize the C++ templates mechanism to sup
 
 	- Before making the copy, you need to clear the current skip list with the destructor.
 
-	- You need to maintain a `source` array to keep tracking the rightmost visited nodes on each level of the target skip list.
+	- You need to maintain a `source` array to keep tracking the rightmost visited nodes on each level of the source skip list.
 
 	- You also need to maintain a `target` array to keep tracking the rightmost copied nodes on each level of the target skip list. Each time a new node is copied, you can link pointers to it by setting `target[i]->forward[i] = newNode`.
 
@@ -205,7 +207,7 @@ Please make a fork of the VE280 GitHub repository at <https://github.com/ve280/v
 
 ## Acknowledgement
 
-Lab 5 problems are designed by [Zian Ke](https://github.com/zianke).
+Lab 5 problems are designed by [Zian Ke](https://github.com/zianke) and [Yihao Liu](https://github.com/tc-imba).
 
 
 ## Reference

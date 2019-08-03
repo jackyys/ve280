@@ -8,10 +8,9 @@
 
 using namespace std;
 
-Player::Player(const std::string &name, Camp camp) : name(name), camp(camp), hero(newHero()),
-                                                     health(hero->getLife()) {}
+Player::Player(const string &name, Camp camp) : name(name), camp(camp), hero(newHero()), health(hero->getLife()) {}
 
-std::string Player::getName() const {
+string Player::getName() const {
     return name;
 }
 
@@ -144,17 +143,12 @@ void Player::discardCard(size_t index) {
 }
 
 Player::~Player() {
-    size_t size = cards.size();
-    for (size_t i = 0; i < size; i++) {
-        getDeck()->pushCard(cards.front());
-        cards.pop_front();
-    }
     delete hero;
 }
 
-HumanPlayer::HumanPlayer(const std::string &name, Camp camp) : Player(name, camp) {}
+HumanPlayer::HumanPlayer(const string &name, Camp camp) : Player(name, camp) {}
 
-void HumanPlayer::readCommand(std::string &command, std::vector<size_t> &args) {
+void HumanPlayer::readCommand(string &command, vector<size_t> &args) const {
     string line;
     size_t arg;
     cin >> command;
@@ -166,7 +160,7 @@ void HumanPlayer::readCommand(std::string &command, std::vector<size_t> &args) {
     }
 }
 
-void HumanPlayer::handleGeneralCommand(const std::string &command, const std::vector<size_t> &args) const {
+void HumanPlayer::handleGeneralCommand(const string &command, const vector<size_t> &args) const {
     if (command == "cards") {
         if (!args.empty()) {
             throw InvalidInputException("Command");
@@ -176,17 +170,7 @@ void HumanPlayer::handleGeneralCommand(const std::string &command, const std::ve
         if (!args.empty()) {
             throw InvalidInputException("Command");
         }
-        size_t i = 1;
-        for (Player *player:getGame()->getPlayers()) {
-            cout << "[" << i << "] ";
-            player->printName();
-            cout << " ";
-            player->printHealth();
-            cout << " ";
-            player->getHero()->printName();
-            cout << endl;
-            i++;
-        }
+        getGame()->printPlayers();
     } else if (command == "player") {
         if (args.empty()) {
             this->printPlayer();
@@ -207,9 +191,9 @@ void HumanPlayer::playCard() {
     while (true) {
         cout << endl;
         printName();
-        cout << ": Please select a card." << endl << " > ";
-        std::string command;
-        std::vector<size_t> args;
+        cout << ": Please select a card." << endl << "> ";
+        string command;
+        vector<size_t> args;
         readCommand(command, args);
         try {
             if (command == "card" || command == "card*") {
@@ -257,9 +241,9 @@ Player *HumanPlayer::selectTarget() {
     while (true) {
         cout << endl;
         printName();
-        cout << ": Please select a target." << endl << " > ";
-        std::string command;
-        std::vector<size_t> args;
+        cout << ": Please select a target." << endl << "> ";
+        string command;
+        vector<size_t> args;
         readCommand(command, args);
         try {
             if (command == "target") {
@@ -282,9 +266,9 @@ const Card *HumanPlayer::requestCard(Action action) {
     while (true) {
         cout << endl;
         printName();
-        cout << ": Please select a " << ACTION_NAMES[action] << " card." << endl << " > ";
-        std::string command;
-        std::vector<size_t> args;
+        cout << ": Please select a " << ACTION_NAMES[action] << " card." << endl << "> ";
+        string command;
+        vector<size_t> args;
         readCommand(command, args);
         try {
             if (command == "card" || command == "card*") {
@@ -335,9 +319,9 @@ void HumanPlayer::discardCards() {
     while (cards.size() > health) {
         cout << endl;
         printName();
-        cout << ": Please discard " << cards.size() - health << " cards." << endl << " > ";
-        std::string command;
-        std::vector<size_t> args;
+        cout << ": Please discard " << cards.size() - health << " cards." << endl << "> ";
+        string command;
+        vector<size_t> args;
         readCommand(command, args);
         try {
             if (command == "discard") {
@@ -369,21 +353,46 @@ void HumanPlayer::discardCards() {
     }
 }
 
-MyopicPlayer::MyopicPlayer(const std::string &name, Camp camp) : Player(name, camp) {}
+MyopicPlayer::MyopicPlayer(const string &name, Camp camp) : Player(name, camp) {}
 
 void MyopicPlayer::playCard() {
-    // TODO: Optimize MyopicPlayer's card playing strategies
-    if (!cards.empty()) {
+    for (size_t i = 0; i < cards.size(); i++) {
         try {
-            cards[rand() % cards.size()]->takeEffect(this, getGame()->getPlayers());
-        } catch (exception &e) {}
+            cards[i]->takeEffect(this, getGame()->getPlayers());
+            discardCard(i);
+            return;
+        } catch (CardException &e) {
+            continue;
+        } catch (TargetException &e) {
+            continue;
+        }
+    }
+    for (size_t i = 0; i < cards.size(); i++) {
+        try {
+            hero->castCard(cards[i])->takeEffect(this, getGame()->getPlayers());
+            discardCard(i);
+            return;
+        } catch (CardException &e) {
+            continue;
+        } catch (TargetException &e) {
+            continue;
+        }
+    }
+    try {
+        hero->castCard(nullptr)->takeEffect(this, getGame()->getPlayers());
+        return;
+    } catch (exception &e) {
     }
     throw DiscardException();
 };
 
 Player *MyopicPlayer::selectTarget() {
-    // TODO: Optimize MyopicPlayer's target selecting strategies
-    return getGame()->getPlayers()[rand() % getGame()->getPlayers().size()];
+    while (true) {
+        Player *target = getGame()->getPlayers()[rand() % getGame()->getPlayers().size()];
+        if (target->getCamp() != this->camp) {
+            return target;
+        }
+    }
 }
 
 const Card *MyopicPlayer::requestCard(Action action) {
